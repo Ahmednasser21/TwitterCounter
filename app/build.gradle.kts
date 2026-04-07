@@ -1,9 +1,19 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.kotlin.kapt)
+}
+
+
+val localProperties = Properties().apply {
+    val localPropsFile = rootProject.file("local.properties")
+    if (localPropsFile.exists()) {
+        load(localPropsFile.inputStream())
+    }
 }
 
 android {
@@ -21,10 +31,10 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "TWITTER_API_KEY", "\"${properties["TWITTER_API_KEY"]}\"")
-        buildConfigField("String", "TWITTER_API_SECRET", "\"${properties["TWITTER_API_SECRET"]}\"")
-        buildConfigField("String", "TWITTER_ACCESS_TOKEN", "\"${properties["TWITTER_ACCESS_TOKEN"]}\"")
-        buildConfigField("String", "TWITTER_ACCESS_TOKEN_SECRET", "\"${properties["TWITTER_ACCESS_TOKEN_SECRET"]}\"")
+        buildConfigField("String", "TWITTER_API_KEY", "\"${localProperties["TWITTER_API_KEY"]}\"")
+        buildConfigField("String", "TWITTER_API_SECRET", "\"${localProperties["TWITTER_API_SECRET"]}\"")
+        buildConfigField("String", "TWITTER_ACCESS_TOKEN", "\"${localProperties["TWITTER_ACCESS_TOKEN"]}\"")
+        buildConfigField("String", "TWITTER_ACCESS_TOKEN_SECRET", "\"${localProperties["TWITTER_ACCESS_TOKEN_SECRET"]}\"")
     }
 
     buildTypes {

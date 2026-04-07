@@ -5,4 +5,5 @@ sealed interface TwitterCounterEvent {
     data object OnCopyText : TwitterCounterEvent
     data object OnClearText : TwitterCounterEvent
     data object OnPostTweet : TwitterCounterEvent
+    data object OnSnackbarDismissed : TwitterCounterEvent
 }

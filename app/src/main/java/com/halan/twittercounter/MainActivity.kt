@@ -5,8 +5,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
+import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.halan.twittercounter.ui.screen.TwitterCounterScreen
-import com.halan.twittercounter.ui.screen.TwitterCounterUiState
+import com.halan.twittercounter.ui.screen.TwitterCounterViewModel
 import com.halan.twittercounter.ui.theme.TwitterCounterTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -20,11 +23,14 @@ class MainActivity : ComponentActivity() {
                 android.graphics.Color.TRANSPARENT,
             )
         )
+        val viewModel: TwitterCounterViewModel by viewModels()
+
         setContent {
             TwitterCounterTheme {
+                val uiState by viewModel.uiState.collectAsStateWithLifecycle()
                 TwitterCounterScreen(
-                    uiState = TwitterCounterUiState(),
-                    onEvent = {  },
+                    uiState = uiState,
+                    onEvent = viewModel::onEvent,
                 )
             }
         }

@@ -5,6 +5,8 @@ data class TwitterCounterUiState(
     val charactersTyped: Int = 0,
     val charactersRemaining: Int = MAX_TWEET_LENGTH,
     val isOverLimit: Boolean = false,
+    val isLoading: Boolean = false,
+    val snackbarMessage: SnackbarMessage? = null,
 ) {
     companion object {
         const val MAX_TWEET_LENGTH = 280
