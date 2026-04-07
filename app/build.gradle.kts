@@ -20,6 +20,11 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "TWITTER_API_KEY", "\"${properties["TWITTER_API_KEY"]}\"")
+        buildConfigField("String", "TWITTER_API_SECRET", "\"${properties["TWITTER_API_SECRET"]}\"")
+        buildConfigField("String", "TWITTER_ACCESS_TOKEN", "\"${properties["TWITTER_ACCESS_TOKEN"]}\"")
+        buildConfigField("String", "TWITTER_ACCESS_TOKEN_SECRET", "\"${properties["TWITTER_ACCESS_TOKEN_SECRET"]}\"")
     }
 
     buildTypes {
@@ -40,6 +45,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -52,6 +58,9 @@ dependencies {
     kapt(libs.hilt.compiler)
     implementation(libs.hilt.navigation.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gson)
+    implementation(libs.okhttp.logging)
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
