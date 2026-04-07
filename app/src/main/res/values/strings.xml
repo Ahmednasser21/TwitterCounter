@@ -1,3 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Twitter Counter</string>
+    <string name="screen_title">Twitter character count</string>
+    <string name="label_characters_typed">Characters Typed</string>
+    <string name="label_characters_remaining">Characters Remaining</string>
+    <string name="tweet_max_length">280</string>
+    <string name="text_field_placeholder">Start typing! You can enter up to 280 characters</string>
+    <string name="btn_copy_text">Copy Text</string>
+    <string name="btn_clear_text">Clear Text</string>
+    <string name="btn_post_tweet">Post tweet</string>
+    <string name="cd_twitter_logo">Twitter logo</string>
+    <string name="cd_navigate">Navigate</string>
 </resources>
