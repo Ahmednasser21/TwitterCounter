@@ -36,6 +36,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -68,15 +69,15 @@ private fun TwitterCounterContent(
     onEvent: (TwitterCounterEvent) -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
-
     val snackbarMessage = uiState.snackbarMessage
+    val context = LocalContext.current
     LaunchedEffect(snackbarMessage) {
         if (snackbarMessage != null) {
             val message = when (snackbarMessage) {
-                is SnackbarMessage.TweetPosted -> "Tweet posted successfully"
-                is SnackbarMessage.CopiedToClipboard -> "Text copied to clipboard."
-                is SnackbarMessage.EmptyTextField -> "Text field is empty."
-                is SnackbarMessage.Error -> snackbarMessage.reason
+                is SnackbarMessage.TweetPosted -> context.getString(R.string.snackbar_tweet_posted)
+                is SnackbarMessage.CopiedToClipboard -> context.getString(R.string.snackbar_copied_to_clipboard)
+                is SnackbarMessage.EmptyTextField -> context.getString(R.string.snackbar_empty_text_field)
+                is SnackbarMessage.Error -> context.getString(snackbarMessage.messageRes, *snackbarMessage.formatArgs)
             }
             snackbarHostState.showSnackbar(
                 message = message,
@@ -141,7 +142,7 @@ private fun TwitterCounterContent(
                 CharacterStatCard(
                     modifier = Modifier.weight(1f),
                     label = stringResource(R.string.label_characters_typed),
-                    value = "${uiState.charactersTyped}/${TwitterCounterUiState.MAX_TWEET_LENGTH}",
+                    value = "${uiState.charactersTyped}/${uiState.maxTweetLength}",
                     valueColor = if (uiState.isOverLimit) OverLimitRed else MaterialTheme.colorScheme.onSurface,
                 )
                 CharacterStatCard(

@@ -11,6 +11,8 @@ class CountCharactersUseCase @Inject constructor() {
         private val URL_REGEX = Regex("https?://\\S+")
     }
 
+    val maxTweetLength = MAX_TWEET_LENGTH
+
     operator fun invoke(text: String): TweetCharacterCount {
         val normalizedText = text.replace(URL_REGEX) { "x".repeat(URL_LENGTH) }
         val count = normalizedText.codePointCount(0, normalizedText.length)

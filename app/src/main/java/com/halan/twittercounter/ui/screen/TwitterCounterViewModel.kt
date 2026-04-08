@@ -2,6 +2,7 @@ package com.halan.twittercounter.ui.screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.halan.twittercounter.R
 import com.halan.twittercounter.domain.model.TweetError
 import com.halan.twittercounter.domain.model.TweetResult
 import com.halan.twittercounter.domain.usecase.CopyTextUseCase
@@ -24,6 +25,16 @@ class TwitterCounterViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(TwitterCounterUiState())
     val uiState: StateFlow<TwitterCounterUiState> = _uiState.asStateFlow()
+
+    init {
+        val maxLength = countCharactersUseCase.maxTweetLength
+        _uiState.update {
+            it.copy(
+                charactersRemaining = maxLength,
+                maxTweetLength = maxLength,
+            )
+        }
+    }
 
     fun onEvent(event: TwitterCounterEvent) {
         when (event) {
@@ -58,7 +69,20 @@ class TwitterCounterViewModel @Inject constructor(
     }
 
     private fun clearText() {
-        _uiState.update { TwitterCounterUiState() }
+        if (_uiState.value.tweetText.isBlank()) {
+            _uiState.update { it.copy(snackbarMessage = SnackbarMessage.EmptyTextField) }
+        } else {
+            _uiState.update {
+                it.copy(
+                    tweetText = "",
+                    charactersTyped = 0,
+                    charactersRemaining = countCharactersUseCase.maxTweetLength,
+                    isOverLimit = false,
+                    maxTweetLength = countCharactersUseCase.maxTweetLength,
+                    snackbarMessage = null,
+                )
+            }
+        }
     }
 
     private fun postTweet() {
@@ -66,23 +90,38 @@ class TwitterCounterViewModel @Inject constructor(
             _uiState.update { it.copy(isLoading = true) }
             val result = postTweetUseCase(_uiState.value.tweetText)
             _uiState.update { state ->
-                state.copy(
-                    isLoading = false,
-                    snackbarMessage = when (result) {
-                        is TweetResult.Success -> SnackbarMessage.TweetPosted
-                        is TweetResult.Failure -> when (result.error) {
-                            is TweetError.NetworkUnavailable -> SnackbarMessage.Error("No internet connection.")
-                            is TweetError.Unauthorized -> SnackbarMessage.Error("Authentication failed. Check your API keys.")
-                            is TweetError.PaymentRequired -> SnackbarMessage.Error("No credits remaining on your X account.")
-                            is TweetError.Forbidden -> SnackbarMessage.Error("You don't have permission to post this tweet.")
-                            is TweetError.DuplicateTweet -> SnackbarMessage.Error("You already posted this tweet recently.")
-                            is TweetError.NotFound -> SnackbarMessage.Error("Resource not found. Please try again.")
-                            is TweetError.RateLimited -> SnackbarMessage.Error("Rate limited. Try again in ${result.error.retryAfterSeconds}s.")
-                            is TweetError.ServerError -> SnackbarMessage.Error("Server error: ${result.error.message}")
-                            is TweetError.Unknown -> SnackbarMessage.Error("Something went wrong. Please try again.")
-                        }
-                    }
-                )
+                when (result) {
+                    is TweetResult.Success -> state.copy(
+                        isLoading = false,
+                        tweetText = "",
+                        charactersTyped = 0,
+                        charactersRemaining = countCharactersUseCase.maxTweetLength,
+                        isOverLimit = false,
+                        maxTweetLength = countCharactersUseCase.maxTweetLength,
+                        snackbarMessage = SnackbarMessage.TweetPosted,
+                    )
+                    is TweetResult.Failure -> state.copy(
+                        isLoading = false,
+                        snackbarMessage = SnackbarMessage.Error(
+                            messageRes = when (result.error) {
+                                is TweetError.NetworkUnavailable -> R.string.snackbar_error_network
+                                is TweetError.Unauthorized -> R.string.snackbar_error_unauthorized
+                                is TweetError.RateLimited -> R.string.snackbar_error_rate_limited
+                                is TweetError.ServerError -> R.string.snackbar_error_server
+                                is TweetError.PaymentRequired -> R.string.snackbar_error_payment_required
+                                is TweetError.Forbidden -> R.string.snackbar_error_forbidden
+                                is TweetError.DuplicateTweet -> R.string.snackbar_error_duplicate_tweet
+                                is TweetError.NotFound -> R.string.snackbar_error_not_found
+                                is TweetError.Unknown -> R.string.snackbar_error_unknown
+                            },
+                            formatArgs = when (val error = result.error) {
+                                is TweetError.RateLimited -> arrayOf(error.retryAfterSeconds)
+                                is TweetError.ServerError -> arrayOf(error.message)
+                                else -> emptyArray()
+                            }
+                        )
+                    )
+                }
             }
         }
     }

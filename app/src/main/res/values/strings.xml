@@ -11,4 +11,16 @@
     <string name="btn_post_tweet">Post tweet</string>
     <string name="cd_twitter_logo">Twitter logo</string>
     <string name="cd_navigate">Navigate</string>
+    <string name="snackbar_tweet_posted">Tweet posted successfully</string>
+    <string name="snackbar_copied_to_clipboard">Text copied to clipboard.</string>
+    <string name="snackbar_empty_text_field">Text field is empty.</string>
+    <string name="snackbar_error_network">No internet connection.</string>
+    <string name="snackbar_error_unauthorized">Authentication failed. Check your API keys.</string>
+    <string name="snackbar_error_rate_limited">Rate limited. Try again in %ds.</string>
+    <string name="snackbar_error_server">Server error: %s</string>
+    <string name="snackbar_error_unknown">Something went wrong. Please try again.</string>
+    <string name="snackbar_error_payment_required">No credits remaining on your X account.</string>
+    <string name="snackbar_error_forbidden">You don\'t have permission to post this tweet.</string>
+    <string name="snackbar_error_duplicate_tweet">You already posted this tweet recently.</string>
+    <string name="snackbar_error_not_found">Resource not found. Please try again.</string>
 </resources>
