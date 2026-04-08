@@ -1,8 +1,5 @@
 package com.halan.twittercounter.data.repository
 
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
 import com.halan.twittercounter.data.remote.dto.PostTweetRequest
 import com.halan.twittercounter.data.remote.TwitterApiService
 import com.halan.twittercounter.domain.model.PostedTweet
@@ -10,14 +7,12 @@ import com.halan.twittercounter.domain.model.Tweet
 import com.halan.twittercounter.domain.model.TweetError
 import com.halan.twittercounter.domain.model.TweetResult
 import com.halan.twittercounter.domain.repository.TweetRepository
-import dagger.hilt.android.qualifiers.ApplicationContext
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
 class TweetRepositoryImpl @Inject constructor(
-    private val apiService: TwitterApiService,
-    @ApplicationContext private val context: Context,
+    private val apiService: TwitterApiService
 ) : TweetRepository {
 
     override suspend fun postTweet(tweet: Tweet): TweetResult = try {
@@ -50,11 +45,5 @@ class TweetRepositoryImpl @Inject constructor(
         TweetResult.Failure(TweetError.NetworkUnavailable)
     } catch (_: Exception) {
         TweetResult.Failure(TweetError.Unknown)
-    }
-
-    override fun copyToClipboard(text: String) {
-        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        val clip = ClipData.newPlainText("tweet", text)
-        clipboard.setPrimaryClip(clip)
     }
 }

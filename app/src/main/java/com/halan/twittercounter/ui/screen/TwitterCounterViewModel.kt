@@ -1,14 +1,17 @@
 package com.halan.twittercounter.ui.screen
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.halan.twittercounter.R
 import com.halan.twittercounter.domain.model.TweetError
 import com.halan.twittercounter.domain.model.TweetResult
-import com.halan.twittercounter.domain.usecase.CopyTextUseCase
 import com.halan.twittercounter.domain.usecase.CountCharactersUseCase
 import com.halan.twittercounter.domain.usecase.PostTweetUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,7 +22,7 @@ import javax.inject.Inject
 @HiltViewModel
 class TwitterCounterViewModel @Inject constructor(
     private val countCharactersUseCase: CountCharactersUseCase,
-    private val copyTextUseCase: CopyTextUseCase,
+    @ApplicationContext private val context: Context,
     private val postTweetUseCase: PostTweetUseCase,
 ) : ViewModel() {
 
@@ -63,7 +66,8 @@ class TwitterCounterViewModel @Inject constructor(
         if (text.isBlank()) {
             _uiState.update { it.copy(snackbarMessage = SnackbarMessage.EmptyTextField) }
         } else {
-            copyTextUseCase(text)
+            val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            clipboard.setPrimaryClip(ClipData.newPlainText("tweet", text))
             _uiState.update { it.copy(snackbarMessage = SnackbarMessage.CopiedToClipboard) }
         }
     }

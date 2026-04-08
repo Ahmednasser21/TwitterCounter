@@ -15,11 +15,26 @@ class CountCharactersUseCase @Inject constructor() {
 
     operator fun invoke(text: String): TweetCharacterCount {
         val normalizedText = text.replace(URL_REGEX) { "x".repeat(URL_LENGTH) }
-        val count = normalizedText.codePointCount(0, normalizedText.length)
+        val count = weightedCount(normalizedText)
         return TweetCharacterCount(
             typed = count,
             remaining = MAX_TWEET_LENGTH - count,
             isOverLimit = count > MAX_TWEET_LENGTH,
         )
+    }
+
+    private fun weightedCount(text: String): Int {
+        var count = 0
+        var i = 0
+        while (i < text.length) {
+            val codePoint = text.codePointAt(i)
+            count += if (isEmoji(codePoint)) 2 else 1
+            i += Character.charCount(codePoint)
+        }
+        return count
+    }
+
+    private fun isEmoji(codePoint: Int): Boolean {
+        return codePoint > 0xFFFF
     }
 }
