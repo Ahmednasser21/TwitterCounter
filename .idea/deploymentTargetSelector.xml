@@ -7,10 +7,10 @@
       </SelectionState>
       <SelectionState runConfigName="TwitterCounterScreenPreview">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2026-04-07T11:38:32.036826400Z">
+        <DropdownSelection timestamp="2026-04-08T10:30:31.494633900Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="PhysicalDevice" identifier="serial=R58M85S5BEA" />
+              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\ahmed\.android\avd\Medium_Phone.avd" />
             </handle>
           </Target>
         </DropdownSelection>

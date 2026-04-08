@@ -29,12 +29,19 @@ class TweetRepositoryImpl @Inject constructor(
             TweetResult.Failure(TweetError.Unknown)
         }
     } catch (e: HttpException) {
+        val errorBody = e.response()?.errorBody()?.string()
+        val isDuplicate = errorBody?.contains("duplicate", ignoreCase = true) == true
+
         val error = when (e.code()) {
             401 -> TweetError.Unauthorized
+            402 -> TweetError.PaymentRequired
+            403 -> if (isDuplicate) TweetError.DuplicateTweet else TweetError.Forbidden
+            404 -> TweetError.NotFound
             429 -> {
                 val retryAfter = e.response()?.headers()?.get("retry-after")?.toIntOrNull() ?: 60
                 TweetError.RateLimited(retryAfterSeconds = retryAfter)
             }
+
             in 500..599 -> TweetError.ServerError(e.message())
             else -> TweetError.Unknown
         }

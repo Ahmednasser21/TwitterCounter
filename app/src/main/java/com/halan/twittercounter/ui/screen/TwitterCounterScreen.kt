@@ -73,8 +73,9 @@ private fun TwitterCounterContent(
     LaunchedEffect(snackbarMessage) {
         if (snackbarMessage != null) {
             val message = when (snackbarMessage) {
-                is SnackbarMessage.TweetPosted -> "Tweet posted successfully! 🎉"
+                is SnackbarMessage.TweetPosted -> "Tweet posted successfully"
                 is SnackbarMessage.CopiedToClipboard -> "Text copied to clipboard."
+                is SnackbarMessage.EmptyTextField -> "Text field is empty."
                 is SnackbarMessage.Error -> snackbarMessage.reason
             }
             snackbarHostState.showSnackbar(

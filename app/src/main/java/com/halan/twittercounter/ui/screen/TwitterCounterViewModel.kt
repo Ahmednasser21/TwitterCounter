@@ -48,8 +48,13 @@ class TwitterCounterViewModel @Inject constructor(
     }
 
     private fun copyText() {
-        copyTextUseCase(_uiState.value.tweetText)
-        _uiState.update { it.copy(snackbarMessage = SnackbarMessage.CopiedToClipboard) }
+        val text = _uiState.value.tweetText
+        if (text.isBlank()) {
+            _uiState.update { it.copy(snackbarMessage = SnackbarMessage.EmptyTextField) }
+        } else {
+            copyTextUseCase(text)
+            _uiState.update { it.copy(snackbarMessage = SnackbarMessage.CopiedToClipboard) }
+        }
     }
 
     private fun clearText() {
@@ -68,6 +73,10 @@ class TwitterCounterViewModel @Inject constructor(
                         is TweetResult.Failure -> when (result.error) {
                             is TweetError.NetworkUnavailable -> SnackbarMessage.Error("No internet connection.")
                             is TweetError.Unauthorized -> SnackbarMessage.Error("Authentication failed. Check your API keys.")
+                            is TweetError.PaymentRequired -> SnackbarMessage.Error("No credits remaining on your X account.")
+                            is TweetError.Forbidden -> SnackbarMessage.Error("You don't have permission to post this tweet.")
+                            is TweetError.DuplicateTweet -> SnackbarMessage.Error("You already posted this tweet recently.")
+                            is TweetError.NotFound -> SnackbarMessage.Error("Resource not found. Please try again.")
                             is TweetError.RateLimited -> SnackbarMessage.Error("Rate limited. Try again in ${result.error.retryAfterSeconds}s.")
                             is TweetError.ServerError -> SnackbarMessage.Error("Server error: ${result.error.message}")
                             is TweetError.Unknown -> SnackbarMessage.Error("Something went wrong. Please try again.")
