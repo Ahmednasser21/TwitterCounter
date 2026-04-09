@@ -1,5 +1,6 @@
-package com.halan.twittercounter.domain.usecase
+package com.halan.twittercounter.usecase
 
+import com.halan.twittercounter.domain.usecase.CountCharactersUseCase
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue

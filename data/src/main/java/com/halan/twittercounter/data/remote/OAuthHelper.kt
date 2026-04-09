@@ -7,6 +7,7 @@ import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 import android.util.Base64
 import java.util.UUID
+import kotlin.toString
 
 object OAuthHelper {
 

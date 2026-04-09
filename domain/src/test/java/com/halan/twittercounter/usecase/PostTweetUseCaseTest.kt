@@ -1,9 +1,10 @@
-package com.halan.twittercounter.domain.usecase
+package com.halan.twittercounter.usecase
 
 import com.halan.twittercounter.domain.model.PostedTweet
 import com.halan.twittercounter.domain.model.TweetError
 import com.halan.twittercounter.domain.model.TweetResult
 import com.halan.twittercounter.domain.repository.TweetRepository
+import com.halan.twittercounter.domain.usecase.PostTweetUseCase
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk

@@ -21,3 +21,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "Twitter Counter"
 include(":app")
+include(":data")
+include(":domain")

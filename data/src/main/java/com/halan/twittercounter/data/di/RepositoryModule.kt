@@ -1,7 +1,7 @@
-package com.halan.twittercounter.di
+package com.halan.twittercounter.data.di
 
-import com.halan.twittercounter.data.repository.TweetRepositoryImpl
 import com.halan.twittercounter.domain.repository.TweetRepository
+import com.halan.twittercounter.data.repository.TweetRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

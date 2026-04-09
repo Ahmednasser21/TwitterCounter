@@ -1,6 +1,6 @@
-package com.halan.twittercounter.di
+package com.halan.twittercounter.data.di
 
-import com.halan.twittercounter.BuildConfig
+import com.halan.twittercounter.domain.credentials.TwitterCredentials
 import com.halan.twittercounter.data.remote.OAuthHelper
 import com.halan.twittercounter.data.remote.TwitterApiService
 import dagger.Module
@@ -21,24 +21,18 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(): OkHttpClient {
-        val consumerKey = BuildConfig.TWITTER_API_KEY
-        val consumerSecret = BuildConfig.TWITTER_API_SECRET
-        val accessToken = BuildConfig.TWITTER_ACCESS_TOKEN
-        val accessTokenSecret = BuildConfig.TWITTER_ACCESS_TOKEN_SECRET
-
+    fun provideOkHttpClient(credentials: TwitterCredentials): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
             })
             .addInterceptor { chain ->
-                val request = chain.request()
                 val signed = OAuthHelper.sign(
-                    request = request,
-                    consumerKey = consumerKey,
-                    consumerSecret = consumerSecret,
-                    accessToken = accessToken,
-                    accessTokenSecret = accessTokenSecret,
+                    request = chain.request(),
+                    consumerKey = credentials.apiKey,
+                    consumerSecret = credentials.apiSecret,
+                    accessToken = credentials.accessToken,
+                    accessTokenSecret = credentials.accessTokenSecret,
                 )
                 chain.proceed(signed)
             }

@@ -4,12 +4,12 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import app.cash.turbine.test
+import com.halan.twittercounter.R
 import com.halan.twittercounter.domain.model.PostedTweet
 import com.halan.twittercounter.domain.model.TweetError
 import com.halan.twittercounter.domain.model.TweetResult
 import com.halan.twittercounter.domain.usecase.CountCharactersUseCase
 import com.halan.twittercounter.domain.usecase.PostTweetUseCase
-import com.halan.twittercounter.R
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk

@@ -1,11 +1,12 @@
-package com.halan.twittercounter.data.repository
+package com.halan.twittercounter.repository
 
-import com.halan.twittercounter.data.remote.TwitterApiService
-import com.halan.twittercounter.data.remote.dto.PostTweetResponse
-import com.halan.twittercounter.data.remote.dto.TweetData
 import com.halan.twittercounter.domain.model.Tweet
 import com.halan.twittercounter.domain.model.TweetError
 import com.halan.twittercounter.domain.model.TweetResult
+import com.halan.twittercounter.data.remote.TwitterApiService
+import com.halan.twittercounter.data.remote.dto.PostTweetResponse
+import com.halan.twittercounter.data.remote.dto.TweetData
+import com.halan.twittercounter.data.repository.TweetRepositoryImpl
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
