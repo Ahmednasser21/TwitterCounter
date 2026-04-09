@@ -1,7 +1,7 @@
 package com.halan.twittercounter.di
 
 import com.halan.twittercounter.BuildConfig
-import com.halan.twittercounter.domain.credentials.TwitterCredentials
+import com.halan.twittercounter.data.credentials.TwitterCredentials
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

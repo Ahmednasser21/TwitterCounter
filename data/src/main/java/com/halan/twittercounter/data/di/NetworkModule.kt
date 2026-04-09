@@ -1,6 +1,6 @@
 package com.halan.twittercounter.data.di
 
-import com.halan.twittercounter.domain.credentials.TwitterCredentials
+import com.halan.twittercounter.data.credentials.TwitterCredentials
 import com.halan.twittercounter.data.remote.OAuthHelper
 import com.halan.twittercounter.data.remote.TwitterApiService
 import dagger.Module

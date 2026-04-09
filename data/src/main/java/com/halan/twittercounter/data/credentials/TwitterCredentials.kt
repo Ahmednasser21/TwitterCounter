@@ -1,4 +1,4 @@
-package com.halan.twittercounter.domain.credentials
+package com.halan.twittercounter.data.credentials
 
 interface TwitterCredentials {
     val apiKey: String
