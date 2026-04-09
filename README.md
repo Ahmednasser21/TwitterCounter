@@ -4,7 +4,13 @@ An Android app for writing and posting tweets. It counts characters the way Twit
 
 ## Stack
 
-Kotlin, Jetpack Compose, Hilt, Retrofit, Coroutines + StateFlow. Clean architecture with UI / Domain / Data layers.
+Kotlin, Jetpack Compose, Hilt, Retrofit, Coroutines + StateFlow. Clean architecture across three Gradle modules: `:app`, `:domain`, and `:data`.
+
+## Modules
+
+- **`:domain`** — pure business logic: use cases, models, and repository interfaces. No Android or framework dependencies.
+- **`:data`** — repository implementations, Retrofit API service, OAuth signing, and network DI wiring.
+- **`:app`** — Compose UI, ViewModel, Hilt setup, and credential injection.
 
 ## Getting started
 
