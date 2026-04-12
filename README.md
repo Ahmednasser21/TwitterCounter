@@ -2,6 +2,10 @@
 
 An Android app for writing and posting tweets. It counts characters the way Twitter actually does — URLs are always 23 characters, emojis are 2 — so you know exactly where you stand before hitting post.
 
+## Screenshot
+
+<img width="300" height="648" alt="Image" src="https://github.com/user-attachments/assets/86fceb4e-da9c-45ba-ab11-a1c740097f42" />
+
 ## Stack
 
 Kotlin, Jetpack Compose, Hilt, Retrofit, Coroutines + StateFlow. Clean architecture across three Gradle modules: `:app`, `:domain`, and `:data`.
